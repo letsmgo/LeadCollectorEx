@@ -8,5 +8,8 @@ public class LeadService {
     @Autowired
     private LeadRepository leadRepository;
 
+    public Lead cadastrarLead(Lead lead){
+        return leadRepository.save(lead);
+    }
 
 }
