@@ -7,15 +7,33 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LeadService {
-    @Autowired
     private LeadRepository leadRepository;
-    @Autowired
     private ProdutoRepository produtoRepository;
 
-    public Lead cadastrarLead(Lead lead){
+    @Autowired
+    public LeadService(LeadRepository leadRepository, ProdutoRepository produtoRepository){
+        this.leadRepository = leadRepository;
+        this.produtoRepository = produtoRepository;
+}
+
+    public Lead cadastrarLead(Lead lead) {
+        List<Produto> produtos = buscarProdutos(lead.getProdutosDesejados());
+
+        Optional<Lead> leadOptional = leadRepository.findById(lead.getEmail());
+        if (leadOptional.isPresent()) {
+            Lead leadDoBanco = leadOptional.get();
+            for (Produto produto : produtos) {
+                if (!leadDoBanco.getProdutosDesejados().contains(produto)) {
+                    leadDoBanco.getProdutosDesejados().add(produto);
+                }
+            }
+            return leadRepository.save(leadDoBanco);
+        }
+        lead.setProdutosDesejados(produtos);
         return leadRepository.save(lead);
     }
 
@@ -37,3 +55,4 @@ public class LeadService {
     }
 
 }
+
