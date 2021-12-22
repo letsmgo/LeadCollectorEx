@@ -1,10 +1,9 @@
 package br.com.zup.LeadCollector.Lead;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -16,6 +15,11 @@ public class LeadController {
     @PostMapping
     public Lead cadastrarLead(@RequestBody Lead lead){
         return leadService.cadastrarLead(lead);
+    }
+
+    @GetMapping
+    public List<Lead> buscarProdutos(@RequestParam String nomeDoProduto){
+        return  leadService.buscarTodosPeloNomeDoProduto(nomeDoProduto);
     }
 
 }
