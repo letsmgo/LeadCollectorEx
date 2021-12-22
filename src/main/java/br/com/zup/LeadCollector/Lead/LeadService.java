@@ -32,4 +32,8 @@ public class LeadService {
         return listaAtualizada;
     }
 
+    public List<Lead> buscarTodosPeloNomeDoProduto(String nomeDoProduto){
+        return leadRepository.findAllByProdutosDesejados(nomeDoProduto);
+    }
+
 }
